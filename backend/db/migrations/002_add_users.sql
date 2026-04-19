@@ -1,0 +1,2 @@
+-- Migration 002: users table created in 001_init.sql
+-- Placeholder — no additional changes needed at this phase.

@@ -1,0 +1,12 @@
+# Permitted outbound domains for the sandbox container.
+# iptables-setup.sh resolves these to IPs and creates ACCEPT rules.
+# All other outbound traffic is DROPPED.
+
+pypi.org
+files.pythonhosted.org
+api.tavily.com
+*.googleapis.com
+*.openai.com
+api.openai.com
+*.anthropic.com
+api.anthropic.com

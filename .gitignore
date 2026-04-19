@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Env
+.env
+*.env.local
+
+# Docker
+*.tar
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Generated protobuf
+*_pb2.py
+*_pb2_grpc.py

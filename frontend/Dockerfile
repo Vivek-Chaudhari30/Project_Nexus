@@ -1,9 +1,9 @@
 # Stage 1: build
 FROM node:22-alpine AS builder
 WORKDIR /app
-COPY package.json .
-RUN npm install --frozen-lockfile 2>/dev/null || npm install
-COPY . .
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci --prefer-offline 2>/dev/null || npm install
+COPY frontend/ .
 RUN npm run build
 
 # Stage 2: serve with nginx

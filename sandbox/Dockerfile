@@ -29,10 +29,10 @@ RUN useradd -u 1000 -m -s /sbin/nologin sandbox
 
 # App files
 WORKDIR /app
-COPY executor.proto    /app/executor.proto
-COPY server.py         /app/server.py
-COPY egress_allowlist.txt /app/egress_allowlist.txt
-COPY iptables-setup.sh /app/iptables-setup.sh
+COPY sandbox/executor.proto    /app/executor.proto
+COPY sandbox/server.py         /app/server.py
+COPY sandbox/egress_allowlist.txt /app/egress_allowlist.txt
+COPY sandbox/iptables-setup.sh /app/iptables-setup.sh
 
 # Generate proto stubs inside the image (requires grpcio-tools)
 RUN python -m grpc_tools.protoc \

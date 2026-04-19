@@ -1,0 +1,2 @@
+-- Migration 003: quality_metrics table created in 001_init.sql
+-- Placeholder — no additional changes needed at this phase.

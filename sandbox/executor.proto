@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package nexus.sandbox;
+
+service Executor {
+  rpc Execute(ExecuteRequest) returns (ExecuteResponse);
+}
+
+message ExecuteRequest {
+  string code            = 1;
+  int32  timeout_seconds = 2;  // hard max 30
+  string task_id         = 3;
+}
+
+message ExecuteResponse {
+  bool   success   = 1;
+  string stdout    = 2;  // truncated to 5000 chars
+  string stderr    = 3;  // truncated to 2000 chars
+  int32  exit_code = 4;
+  int32  wall_ms   = 5;
+}

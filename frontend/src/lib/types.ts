@@ -58,6 +58,19 @@ export interface SessionDetail {
   completed_at: string | null
 }
 
+// Provider mode -----------------------------------------------------------
+
+export type ProviderMode = 'openai_only' | 'multi'
+
+export interface ProviderModeResponse {
+  mode: ProviderMode
+  models: {
+    reasoning: string
+    code: string
+    extraction: string
+  }
+}
+
 // WebSocket frame union ---------------------------------------------------
 
 export interface ConnectedFrame   { type: 'connected';      session_id: string }

@@ -4,6 +4,8 @@
 import type {
   CreateSessionResponse,
   LoginResponse,
+  ProviderMode,
+  ProviderModeResponse,
   RegisterResponse,
   SessionDetail,
   SessionList,
@@ -88,4 +90,17 @@ export async function deleteSession(sessionId: string): Promise<void> {
 
 export async function abortSession(sessionId: string): Promise<void> {
   return apiFetch(`/sessions/${sessionId}/abort`, { method: 'POST' })
+}
+
+// ── Provider mode ─────────────────────────────────────────────────────────
+
+export async function getProviderMode(): Promise<ProviderModeResponse> {
+  return apiFetch('/config/provider-mode')
+}
+
+export async function setProviderMode(mode: ProviderMode): Promise<ProviderModeResponse> {
+  return apiFetch('/config/provider-mode', {
+    method: 'POST',
+    body: JSON.stringify({ mode }),
+  })
 }

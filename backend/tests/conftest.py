@@ -8,12 +8,13 @@ import os
 _TEST_ENV = {
     "DATABASE_URL": "postgresql://test:test@localhost:5432/test",
     "REDIS_URL": "redis://localhost:6379/0",
-    "ANTHROPIC_API_KEY": "test-anthropic",
     "OPENAI_API_KEY": "test-openai",
+    "ANTHROPIC_API_KEY": "test-anthropic",
     "GOOGLE_API_KEY": "test-google",
     "TAVILY_API_KEY": "test-tavily",
     "PINECONE_API_KEY": "test-pinecone",
     "JWT_SECRET": "test-jwt-secret-that-is-long-enough-for-hs256",
+    "PROVIDER_MODE": "openai_only",
 }
 
 for _k, _v in _TEST_ENV.items():

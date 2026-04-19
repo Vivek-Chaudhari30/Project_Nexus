@@ -73,6 +73,12 @@ make eval        # run scripts/eval_accuracy.py
  
 10. **Pinecone writes only at quality >= 0.70.** Polluting memory with low-
     quality past runs hurts every future session.
+
+11. **Provider mode is toggled only through ModelRouter.** Never hardcode a
+    model provider anywhere else. The toggle endpoint (`POST /api/v1/config/
+    provider-mode`) and `backend/core/models.py` are the single source of
+    truth for which LLMs are active. The active router can be hot-swapped at
+    runtime via `set_model_router()` without a server restart.
  
 ## Coding Conventions
  

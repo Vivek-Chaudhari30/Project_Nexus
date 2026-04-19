@@ -1,12 +1,14 @@
-import { useEffect, useMemo } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import OutputPanel from '../components/OutputPanel'
 import PipelineVisualizer from '../components/PipelineVisualizer'
 import QualityMeter from '../components/QualityMeter'
 import SessionSidebar from '../components/SessionSidebar'
 import StreamLog from '../components/StreamLog'
+import { SessionRunningContext } from '../context/SessionRunningContext'
+import { getProviderMode } from '../lib/api'
 import { useNexusStream } from '../hooks/useNexusStream'
-import type { DoneFrame, QualityScoreFrame } from '../lib/types'
+import type { DoneFrame, ProviderModeResponse, QualityScoreFrame } from '../lib/types'
 
 export default function Session() {
   const { sessionId } = useParams<{ sessionId: string }>()
@@ -14,14 +16,25 @@ export default function Session() {
   const navigate = useNavigate()
   const goal = (location.state as { goal?: string } | null)?.goal ?? ''
 
+  const { setRunning } = useContext(SessionRunningContext)
+  const [providerMode, setProviderMode] = useState<ProviderModeResponse | null>(null)
+
+  useEffect(() => {
+    getProviderMode().then(setProviderMode).catch(() => null)
+  }, [])
+
   const { frames, status, connect, disconnect } = useNexusStream()
 
   useEffect(() => {
     if (sessionId && goal) {
+      setRunning(true)
       connect(sessionId, goal)
     }
-    return () => disconnect()
-  }, [sessionId, goal, connect, disconnect])
+    return () => {
+      disconnect()
+      setRunning(false)
+    }
+  }, [sessionId, goal, connect, disconnect, setRunning])
 
   const activeAgent = useMemo(() => {
     for (let i = frames.length - 1; i >= 0; i--) {
@@ -63,6 +76,11 @@ export default function Session() {
     return null
   }, [frames])
 
+  // Mark session as no longer running once completed
+  useEffect(() => {
+    if (status === 'done' || status === 'error') setRunning(false)
+  }, [status, setRunning])
+
   return (
     <div className="flex h-full bg-gray-950 text-gray-100">
       <SessionSidebar />
@@ -93,6 +111,7 @@ export default function Session() {
           activeAgent={activeAgent}
           completedAgents={completedAgents}
           iteration={currentIteration}
+          modelAssignments={providerMode?.models ?? null}
         />
 
         <StreamLog frames={frames} />
